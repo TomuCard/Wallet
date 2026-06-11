@@ -19,16 +19,21 @@ function hashColor(key: string): string {
 export async function getDominantColor(domain: string): Promise<string> {
   if (cache[domain]) return cache[domain];
 
-  const apiKey = await getBrandfetchKey();
-  if (!apiKey) return hashColor(domain);
-
   try {
+    const apiKey = await getBrandfetchKey();
+    if (!apiKey) return hashColor(domain);
+
     const res = await fetch(`https://api.brandfetch.io/v2/brands/${domain}`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
     if (!res.ok) throw new Error();
     const data = await res.json();
-    const brandColor = data.colors?.find((c: any) => c.type === 'brand') ?? data.colors?.[0];
+    const colors: any[] = data.colors ?? [];
+    const brandColor =
+      colors.find((c) => c.type === 'brand') ??
+      colors.find((c) => c.type === 'accent') ??
+      colors.find((c) => c.type !== 'dark' && c.type !== 'light') ??
+      colors[0];
     const color = brandColor?.hex ?? hashColor(domain);
     cache[domain] = color;
     return color;

@@ -130,9 +130,9 @@ export function AddSubscriptionScreen({ navigation, route }: Props) {
                     brand_id: domain,
                     name: shouldUpdate ? brandName : f.name,
                   }));
-                  getDominantColor(domain).then((color) =>
-                    setForm((f) => ({ ...f, brand_color: color }))
-                  );
+                  getDominantColor(domain)
+                    .then((color) => setForm((f) => ({ ...f, brand_color: color })))
+                    .catch(() => {});
                 }}
               />
             </View>

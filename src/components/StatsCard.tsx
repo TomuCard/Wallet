@@ -8,7 +8,6 @@ import { getMonthlyPrice, getYearlyPrice } from "../database/db";
 import { getNextRenewalDate } from "../utils/renewal";
 import type { Subscription, BillingCycle } from "../types";
 
-
 const SIZE = 160;
 const CX = SIZE / 2;
 const CY = SIZE / 2;
@@ -121,12 +120,6 @@ export function StatsCard({ subscriptions, viewMode, onToggleMode }: Props) {
                             <View style={styles.statChip}>
                                 <Ionicons name="calendar-outline" size={12} color={theme.colors.accent} />
                                 <Text style={styles.statText}>Prochain : {nextRenewal}</Text>
-                            </View>
-                        )}
-                        {viewMode === "monthly" && (
-                            <View style={styles.statChip}>
-                                <Ionicons name="trending-up-outline" size={12} color={theme.colors.accent} />
-                                <Text style={styles.statText}>{totalYearly.toLocaleString("fr-FR", { maximumFractionDigits: 0 })}€/an</Text>
                             </View>
                         )}
                     </View>
